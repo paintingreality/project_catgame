@@ -7,10 +7,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" charset="utf-8"></script>
 
   <style>
+/* body has the paper.jpg christmas wallpaper set to cover*/
       body{
         background: url(paper.jpg);
         background-size: cover;
       }
+/* the container class includes the h1, exampleSquares, playerSquares and pulldowns*/
       .container {
         width: 900px;
         height: 780px;
@@ -19,12 +21,14 @@
         display: block;
         margin: auto;
       }
+/*this h1 is for the Creepy Cat people christmas card game */
       .h1 {
         color: white;
         text-align: center;
         border: 4px solid red;
         background: blue;
       }
+/* exampleSquares properties*/
       .exampleSquares{
         width: 200px;
         height: 300px;
@@ -33,6 +37,7 @@
         margin: 2px;
         padding: 4px;
       }
+/*playerSquares properties*/
       .playerSquares{
         width: 200px;
         height: 300px;
@@ -42,21 +47,19 @@
         margin-top: 5px;
         padding: 4px;
       }
+/*pulldowns properties*/
       .pulldowns{
         margin-left: 150px;
       }
+/*all images have this size ratio*/
       img {
         width: 200px;
         height: 300px;
       }
-
-
-
-
       </style>
 
   <body>
-    <div class="container">
+    <div class="container"> <!--container start -->
       <h1 class="h1">The Creepy Cat People Christmas Card Game</h1>
       <div id="es0" class="exampleSquares"></div>
       <div id="es1" class="exampleSquares"></div>
@@ -98,18 +101,17 @@
       </select>
     </div>
 
-
-
-    </div>
-
-
-
+  </div> <!-- container ends -->
 
     <script type="text/javascript">
-      var examSquares = document.querySelectorAll('.exampleSquares')
-      var arrayCats = ['<img src="cheesycat.jpg" alt="cheesycat">', '<img src="cat.jpg" alt="cat">', '<img src="nerdcat.jpg" alt="nerdcat">', '<img src="uglysweatercat.jpg" alt="uglysweatercat">', '<img src="couplescat.jpg" alt="couplescat">']
+//variables for exampleSquares, arrayCats and arrayCopy //
+      var $examSquares = $('.exampleSquares')
+      var $playSquares = $('.playerSquares')
+      var arrayCats = ['<img src="cheesycat.jpg" alt="cheesycat">', '<img src="cat.jpg" alt="cat">','<img src="uglysweatercat.jpg" alt="uglysweatercat">', '<img src="couplescat.jpg" alt="couplescat">']
 
-
+      var arrayCopy = [].concat(arrayCats)
+      // var currentFade = $(examSquares).fadeOut()
+// shuffle function to shuffle at random //
       function shuffle(arrayCats) {
         var currentIndex = arrayCats.length, tempCatsVal, randomCatsIndex;
         while (currentIndex) {
@@ -125,11 +127,38 @@
 
       }
       shuffle(arrayCats)
-
+// for loop to generate pictures in examSquares and make them fadeOut after 5 seconds. //
       for (var i = 0; i < 4; i++) {
-      examSquares[i].innerHTML = arrayCats.pop()
-    }
-      console.log("shuffling")
+        $examSquares[i].innerHTML = arrayCats.pop()
+
+      }
+
+      $examSquares.fadeOut(5000).promise().then(function() {
+        console.log("animation done")
+        shuffle(arrayCats)
+        for (var i = 0; i < 4; i++) {
+          $playSquares[i].innerHTML = arrayCopy.pop()
+
+        }
+      })
+
+      $playSquares.fadeOut( 20000).promise().then(function() {
+        console.log('animation two done')
+      })
+      //   //     // Animation complete.
+      //   })
+      // if (currentFade ) {
+      //
+      // }
+
+    //   console.log("shuffling")
+    //   }
+    // }
+
+// __________________________________________________________________________//
+
+
+
 
 
       //for (var i = 0; i < 4; i++) {
