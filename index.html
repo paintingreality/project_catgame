@@ -110,9 +110,31 @@
       var arrayCats = ['<img src="cheesycat.jpg" alt="cheesycat">', '<img src="cat.jpg" alt="cat">', '<img src="nerdcat.jpg" alt="nerdcat">', '<img src="uglysweatercat.jpg" alt="uglysweatercat">', '<img src="couplescat.jpg" alt="couplescat">']
 
 
-      for (var i = 0; i < 4; i++) {
-        examSquares[Math.floor(Math.random() * 5)].innerHTML = arrayCats[i]
+      function shuffle(arrayCats) {
+        var currentIndex = arrayCats.length, tempCatsVal, randomCatsIndex;
+        while (currentIndex) {
+
+          randomCatsIndex = Math.floor(Math.random() * currentIndex--);
+
+
+          tempCatsVal = arrayCats[currentIndex];
+          arrayCats[currentIndex] = arrayCats[randomCatsIndex];
+          arrayCats[randomCatsIndex] = tempCatsVal;
+        }
+          return arrayCats;
+
       }
+      shuffle(arrayCats)
+
+      for (var i = 0; i < 4; i++) {
+      examSquares[i].innerHTML = arrayCats.pop()
+    }
+      console.log("shuffling")
+
+
+      //for (var i = 0; i < 4; i++) {
+      //   examSquares[Math.floor(Math.random() * 4)].innerHTML = arrayCats[i]
+
 
       // examSquares[Math.floor(Math.random() * 4)].innerHTML = arrayCats
       // examSquares[Math.floor(Math.random() * 4)].innerHTML = arrayCats
