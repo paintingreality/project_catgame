@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Project 1</title>
+  </head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" charset="utf-8"></script>
+
+  <style>
+      body{
+        background: url(paper.jpg);
+        background-size: cover;
+      }
+      .container {
+        width: 900px;
+        height: 780px;
+        background: darkblue;
+        border: 3px solid lime;
+        display: block;
+        margin: auto;
+      }
+      .h1 {
+        color: white;
+        text-align: center;
+        border: 4px solid red;
+        background: blue;
+      }
+      .exampleSquares{
+        width: 200px;
+        height: 300px;
+        border: 4px solid red;
+        display: inline-block;
+        margin: 2px;
+        padding: 4px;
+      }
+      .playerSquares{
+        width: 200px;
+        height: 300px;
+        border: 4px solid red;
+        display: inline-block;
+        margin: 2px;
+        margin-top: 5px;
+        padding: 4px;
+      }
+      .pulldowns{
+        margin-left: 150px;
+      }
+      img {
+        width: 200px;
+        height: 300px;
+      }
+
+
+
+
+      </style>
+
+  <body>
+    <div class="container">
+      <h1 class="h1">The Creepy Cat People Christmas Card Game</h1>
+      <div id="es0" class="exampleSquares"></div>
+      <div id="es1" class="exampleSquares"></div>
+      <div id="es2" class="exampleSquares"></div>
+      <div id="es3" class="exampleSquares"></div>
+
+      <div id="ps0" class="playerSquares"></div>
+      <div id="ps1" class="playerSquares"></div>
+      <div id="ps2" class="playerSquares"></div>
+      <div id="ps3" class="playerSquares"></div>
+
+    <div class="pulldowners">
+      <select id="1" class="pulldowns">
+        <option value="#">1</option>
+        <option value="#">2</option>
+        <option value="#">3</option>
+        <option value="#">4</option>
+      </select>
+
+      <select id="2" class="pulldowns">
+        <option value="#">1</option>
+        <option value="#">2</option>
+        <option value="#">3</option>
+        <option value="#">4</option>
+      </select>
+
+      <select id="3" class="pulldowns">
+        <option value="#">1</option>
+        <option value="#">2</option>
+        <option value="#">3</option>
+        <option value="#">4</option>
+      </select>
+
+      <select id="4" class="pulldowns">
+        <option value="#">1</option>
+        <option value="#">2</option>
+        <option value="#">3</option>
+        <option value="#">4</option>
+      </select>
+    </div>
+
+
+
+    </div>
+
+
+
+
+    <script type="text/javascript">
+      var examSquares = document.querySelectorAll('.exampleSquares')
+      var arrayCats = ['<img src="cheesycat.jpg" alt="cheesycat">', '<img src="cat.jpg" alt="cat">', '<img src="nerdcat.jpg" alt="nerdcat">', '<img src="uglysweatercat.jpg" alt="uglysweatercat">', '<img src="couplescat.jpg" alt="couplescat">']
+
+
+      for (var i = 0; i < 4; i++) {
+        examSquares[Math.floor(Math.random() * 5)].innerHTML = arrayCats[i]
+      }
+
+      // examSquares[Math.floor(Math.random() * 4)].innerHTML = arrayCats
+      // examSquares[Math.floor(Math.random() * 4)].innerHTML = arrayCats
+      // examSquares[Math.floor(Math.random() * 4)].innerHTML = arrayCats
+
+
+
+
+    </script>
+  </body>
+</html>
