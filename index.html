@@ -48,9 +48,19 @@
         padding: 4px;
       }
 /*pulldowns properties*/
-      .pulldowns{
+      .pullone{
         margin-left: 150px;
       }
+      .pulltwo{
+        margin-left: 150px;
+      }
+      .pullthree{
+        margin-left: 150px;
+      }
+      .pullfour{
+        margin-left: 150px;
+      }
+
 /*all images have this size ratio*/
       img {
         width: 200px;
@@ -61,67 +71,73 @@
   <body>
     <div class="container"> <!--container start -->
       <h1 class="h1">The Creepy Cat People Christmas Card Game</h1>
-      <div id="es0" class="exampleSquares"></div>
+      <div id="es0" class="exampleSquares"></div> <!--top squares -->
       <div id="es1" class="exampleSquares"></div>
       <div id="es2" class="exampleSquares"></div>
       <div id="es3" class="exampleSquares"></div>
 
-      <div id="ps0" class="playerSquares"></div>
+      <div id="ps0" class="playerSquares"></div> <!--bottom squares -->
       <div id="ps1" class="playerSquares"></div>
       <div id="ps2" class="playerSquares"></div>
       <div id="ps3" class="playerSquares"></div>
 
     <div class="pulldowns">
-      <select id="0" class="pullone">
-        <option value="a">a</option>
-        <option value="b">b</option>
-        <option value="c">c</option>
-        <option value="d">d</option>
+      <select id="0" class="pullone"> <!--first pulldown far left -->
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
       </select>
 
-      <select id="1" class="pulltwo">
-        <option value="a">a</option>
-        <option value="b">b</option>
-        <option value="c">c</option>
-        <option value="d">d</option>
+      <select id="1" class="pulltwo"> <!--second pulldown mid left -->
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
       </select>
-
-      <select id="2" class="pullthree">
-        <option value="a">a</option>
-        <option value="b">b</option>
-        <option value="c">c</option>
-        <option value="d">d</option>
+      <select id="2" class="pullthree"> <!--third pulldown mid right -->
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
       </select>
-
-      <select id="3" class="pullfour">
-        <option value="a">a</option>
-        <option value="b">b</option>
-        <option value="c">c</option>
-        <option value="d">d</option>
+      <select id="3" class="pullfour"> <!--last pulldown far right -->
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
       </select>
-      <button type="button">Submit</button>
+      <button type="button">Submit</button> <!--button to submit pulldowns-->
     </div>
 
   </div> <!-- container ends -->
 
     <script type="text/javascript">
-//variables for exampleSquares, arrayCats and arrayCopy //
+//variables for exampleSquares,playerSquares, arrayCats //
       var $examSquares = $('.exampleSquares')
       var $playSquares = $('.playerSquares')
-      var arrayCats = ['<img src="cheesycat.jpg" alt="cheesycat">', '<img src="cat.jpg" alt="cat">','<img src="uglysweatercat.jpg" alt="uglysweatercat">', '<img src="couplescat.jpg" alt="couplescat">']
-
+      //cats have and id#
+      var arrayCats = [
+        {id: 1, pic:'<img src="cheesycat.jpg" alt="cheesycat">'},
+        {id: 2, pic:'<img src="cat.jpg" alt="cat">'},
+        {id: 3, pic: '<img src="uglysweatercat.jpg" alt="uglysweatercat">'},
+        {id: 4, pic:'<img src="couplescat.jpg" alt="couplescat">'}
+      ]
+//var for pulldowns
       var $pullone = $('.pullone')
       var $pulltwo = $('.pulltwo')
       var $pullthree = $('.pullthree')
       var $pullfour = $('.pullfour')
-      var $pullDowners = $('pulldowns')
+      var $pullDowns = $('select')
+//var for arrayCopy
 
-      var arrayCopy = [].concat(arrayCats)
+      // .concat(arrayCats)
       var $p1Guess = ""
       var $p2Guess = ""
       var currentScore = 0
-      var $pulldowns = [$pullone, $pulltwo, $pullthree, $pullfour]
-      // var currentFade = $(examSquares).fadeOut()
+
+// var currentFade = $(examSquares).fadeOut()
+
 // shuffle function to shuffle at random //
       function shuffle(arrayCats) {
         var currentIndex = arrayCats.length, tempCatsVal, randomCatsIndex;
@@ -137,42 +153,72 @@
           return arrayCats;
 
       }
-      shuffle(arrayCats)
-// for loop to generate pictures in examSquares and make them fadeOut after 5 seconds. //
-      for (var i = 0; i < 4; i++) {
-        console.log(arrayCats);
-        $examSquares[i].innerHTML = arrayCats.pop()
 
+        shuffle(arrayCats)
+//__________________________________________________________________________
+// for loop to generate pictures in examSquares and make them fadeOut after 5 seconds. //
+
+      for (var i = 0; i < arrayCats.length; i++) {
+        console.log("shuffled original array:", arrayCats);
+        $examSquares[i].innerHTML = arrayCats[i].pic
       }
+
+      var arrayCopy = [].concat(arrayCats)
+
 //this starts the fadeOut of the examSquares, then once done shuffles and generate the arrayCopy
       $examSquares.fadeOut(5000).promise().then(function() {
-        console.log("animation done")
-        // console.log(arrayCopy)
-        shuffle(arrayCats)
+        console.log("fadeOut animation done")
+        shuffle(arrayCopy)
+        console.log("array copy, shuffled:", arrayCopy)
+
+//for loop to generate pictures in $playSquares and make them fadeOut after 20 seconds.
         for (var i = 0; i < 4; i++) {
-          $playSquares[i].innerHTML = arrayCopy.pop()
+            $playSquares[i].innerHTML = arrayCopy[i].pic
+
 
         }
       })
 //this starts the fadeOut of 20 seconds for the playerSquares
       $playSquares.fadeOut(20000).promise().then(function() {
-        console.log('animation two done')
+        console.log('fadeOut two done')
       })
 // _________________________________________________________________________//
+//this listens for button to be clicked and gets the values for pulldowns.
       $('button').click(function(){
         console.log('youclickedthebutton')
         //make myGuess be a string of the values of the pulldown menus
-
         $p1Guess = $pullone.val() + $pulltwo.val() + $pullthree.val() + $pullfour.val()
-          // $myGuess.join('')
-          console.log($p1Guess)
-          console.log(arrayCopy);
-          // console.log(arrayCopy[0].val());
-        if (arrayCopy == $p1Guess) {
-          console.log('true')
-        } else {
-          console.log('false')
-        }
+
+
+          var result = ""
+          // for (var i = 0; i < arrayCats.length; i++){
+          //   result = result + arrayCats[i].id
+          // }
+
+          $pullDowns.each(function(i, s){
+            var pullVal = Number($(s).val())
+
+            console.log("You picked", pullVal);
+            console.log("Id of this image is:", arrayCats[pullVal - 1].id)
+
+            if(arrayCats[pullVal - 1].id != pullVal) {
+              console.log('FAIL!!!');
+              return false
+            }
+          })
+
+
+          // console.log($p1Guess)
+          // console.log("this is p1guess")
+          // console.log(result)
+          // console.log("this is result of arrayCats")
+
+
+        // if (result == $p1Guess) {
+        //   console.log('true')
+        // } else {
+        //   console.log('false')
+        // }
       })
 
 
