@@ -71,34 +71,35 @@
       <div id="ps2" class="playerSquares"></div>
       <div id="ps3" class="playerSquares"></div>
 
-    <div class="pulldowners">
-      <select id="1" class="pulldowns">
-        <option value="#">1</option>
-        <option value="#">2</option>
-        <option value="#">3</option>
-        <option value="#">4</option>
+    <div class="pulldowns">
+      <select id="0" class="pullone">
+        <option value="a">a</option>
+        <option value="b">b</option>
+        <option value="c">c</option>
+        <option value="d">d</option>
       </select>
 
-      <select id="2" class="pulldowns">
-        <option value="#">1</option>
-        <option value="#">2</option>
-        <option value="#">3</option>
-        <option value="#">4</option>
+      <select id="1" class="pulltwo">
+        <option value="a">a</option>
+        <option value="b">b</option>
+        <option value="c">c</option>
+        <option value="d">d</option>
       </select>
 
-      <select id="3" class="pulldowns">
-        <option value="#">1</option>
-        <option value="#">2</option>
-        <option value="#">3</option>
-        <option value="#">4</option>
+      <select id="2" class="pullthree">
+        <option value="a">a</option>
+        <option value="b">b</option>
+        <option value="c">c</option>
+        <option value="d">d</option>
       </select>
 
-      <select id="4" class="pulldowns">
-        <option value="#">1</option>
-        <option value="#">2</option>
-        <option value="#">3</option>
-        <option value="#">4</option>
+      <select id="3" class="pullfour">
+        <option value="a">a</option>
+        <option value="b">b</option>
+        <option value="c">c</option>
+        <option value="d">d</option>
       </select>
+      <button type="button">Submit</button>
     </div>
 
   </div> <!-- container ends -->
@@ -109,7 +110,17 @@
       var $playSquares = $('.playerSquares')
       var arrayCats = ['<img src="cheesycat.jpg" alt="cheesycat">', '<img src="cat.jpg" alt="cat">','<img src="uglysweatercat.jpg" alt="uglysweatercat">', '<img src="couplescat.jpg" alt="couplescat">']
 
+      var $pullone = $('.pullone')
+      var $pulltwo = $('.pulltwo')
+      var $pullthree = $('.pullthree')
+      var $pullfour = $('.pullfour')
+      var $pullDowners = $('pulldowns')
+
       var arrayCopy = [].concat(arrayCats)
+      var $p1Guess = ""
+      var $p2Guess = ""
+      var currentScore = 0
+      var $pulldowns = [$pullone, $pulltwo, $pullthree, $pullfour]
       // var currentFade = $(examSquares).fadeOut()
 // shuffle function to shuffle at random //
       function shuffle(arrayCats) {
@@ -129,32 +140,58 @@
       shuffle(arrayCats)
 // for loop to generate pictures in examSquares and make them fadeOut after 5 seconds. //
       for (var i = 0; i < 4; i++) {
+        console.log(arrayCats);
         $examSquares[i].innerHTML = arrayCats.pop()
 
       }
-
+//this starts the fadeOut of the examSquares, then once done shuffles and generate the arrayCopy
       $examSquares.fadeOut(5000).promise().then(function() {
         console.log("animation done")
+        // console.log(arrayCopy)
         shuffle(arrayCats)
         for (var i = 0; i < 4; i++) {
           $playSquares[i].innerHTML = arrayCopy.pop()
 
         }
       })
-
-      $playSquares.fadeOut( 20000).promise().then(function() {
+//this starts the fadeOut of 20 seconds for the playerSquares
+      $playSquares.fadeOut(20000).promise().then(function() {
         console.log('animation two done')
       })
-      //   //     // Animation complete.
-      //   })
-      // if (currentFade ) {
-      //
-      // }
+// _________________________________________________________________________//
+      $('button').click(function(){
+        console.log('youclickedthebutton')
+        //make myGuess be a string of the values of the pulldown menus
 
-    //   console.log("shuffling")
-    //   }
-    // }
+        $p1Guess = $pullone.val() + $pulltwo.val() + $pullthree.val() + $pullfour.val()
+          // $myGuess.join('')
+          console.log($p1Guess)
+          console.log(arrayCopy);
+          // console.log(arrayCopy[0].val());
+        if (arrayCopy == $p1Guess) {
+          console.log('true')
+        } else {
+          console.log('false')
+        }
+      })
 
+
+
+
+
+
+
+      // $submit.on('click').(function(){
+      //   $pullDowners.val() = arrayCopy[i]
+      //   console.log(arrayCopy[0])
+      // })
+
+
+
+
+    // $pullDowners.fadeOut(2000).promise().then(function() {
+    //   console.log('buttons faded')
+    // })
 // __________________________________________________________________________//
 
 
