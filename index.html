@@ -83,29 +83,29 @@
 
     <div class="pulldowns">
       <select id="0" class="pullone"> <!--first pulldown far left -->
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
+        <option value="0">1</option>
+        <option value="1">2</option>
+        <option value="2">3</option>
+        <option value="3">4</option>
       </select>
 
       <select id="1" class="pulltwo"> <!--second pulldown mid left -->
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
+        <option value="0">1</option>
+        <option value="1">2</option>
+        <option value="2">3</option>
+        <option value="3">4</option>
       </select>
       <select id="2" class="pullthree"> <!--third pulldown mid right -->
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
+        <option value="0">1</option>
+        <option value="1">2</option>
+        <option value="2">3</option>
+        <option value="3">4</option>
       </select>
       <select id="3" class="pullfour"> <!--last pulldown far right -->
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
+        <option value="0">1</option>
+        <option value="1">2</option>
+        <option value="2">3</option>
+        <option value="3">4</option>
       </select>
       <button type="button">Submit</button> <!--button to submit pulldowns-->
     </div>
@@ -118,11 +118,17 @@
       var $playSquares = $('.playerSquares')
       //cats have and id#
       var arrayCats = [
-        {id: 1, pic:'<img src="cheesycat.jpg" alt="cheesycat">'},
-        {id: 2, pic:'<img src="cat.jpg" alt="cat">'},
-        {id: 3, pic: '<img src="uglysweatercat.jpg" alt="uglysweatercat">'},
-        {id: 4, pic:'<img src="couplescat.jpg" alt="couplescat">'}
+        // {id: 1, pic:'<img src="cheesycat.jpg" alt="cheesycat">'},
+        // {id: 2, pic:'<img src="cat.jpg" alt="cat">'},
+        // {id: 3, pic: '<img src="uglysweatercat.jpg" alt="uglysweatercat">'},
+        // {id: 4, pic:'<img src="couplescat.jpg" alt="couplescat">'}
+        {pic:'<img src="cheesycat.jpg" alt="cheesycat">'},
+        {pic:'<img src="cat.jpg" alt="cat">'},
+        {pic: '<img src="uglysweatercat.jpg" alt="uglysweatercat">'},
+        {pic:'<img src="couplescat.jpg" alt="couplescat">'}
       ]
+
+      var arrayCopy = null;
 //var for pulldowns
       var $pullone = $('.pullone')
       var $pulltwo = $('.pulltwo')
@@ -132,9 +138,12 @@
 //var for arrayCopy
 
       // .concat(arrayCats)
-      var $p1Guess = ""
-      var $p2Guess = ""
-      var currentScore = 0
+      var game = {
+        player1: {lives: 3},
+        player2: {lives: 3}
+      }
+      var currentPlayer = game.player1
+
 
 // var currentFade = $(examSquares).fadeOut()
 
@@ -153,35 +162,47 @@
           return arrayCats;
 
       }
-
+//create function for new round from shuffle to end playSquares fade out.
+      function startRound(){
         shuffle(arrayCats)
+        console.log(arrayCats)
 //__________________________________________________________________________
 // for loop to generate pictures in examSquares and make them fadeOut after 5 seconds. //
 
       for (var i = 0; i < arrayCats.length; i++) {
-        console.log("shuffled original array:", arrayCats);
+        arrayCats[i].id = i
         $examSquares[i].innerHTML = arrayCats[i].pic
       }
 
-      var arrayCopy = [].concat(arrayCats)
+      // make sure examples are faded in...
+      $examSquares.show()
+      arrayCopy = [].concat(arrayCats)
 
 //this starts the fadeOut of the examSquares, then once done shuffles and generate the arrayCopy
       $examSquares.fadeOut(5000).promise().then(function() {
+      //$examSquares.promise().then(function() {
         console.log("fadeOut animation done")
-        shuffle(arrayCopy)
-        console.log("array copy, shuffled:", arrayCopy)
 
-//for loop to generate pictures in $playSquares and make them fadeOut after 20 seconds.
+        shuffle(arrayCopy)
+        console.log(arrayCopy)
         for (var i = 0; i < 4; i++) {
-            $playSquares[i].innerHTML = arrayCopy[i].pic
+          $playSquares[i].innerHTML = arrayCopy[i].pic
 
 
         }
+        console.log("array copy, shuffled:", arrayCopy)
+
+//for loop to generate pictures in $playSquares and make them fadeOut after 20 seconds.
+
       })
+
 //this starts the fadeOut of 20 seconds for the playerSquares
+      $playSquares.show()
       $playSquares.fadeOut(20000).promise().then(function() {
+      // $playSquares.promise().then(function() {
         console.log('fadeOut two done')
       })
+    }
 // _________________________________________________________________________//
 //this listens for button to be clicked and gets the values for pulldowns.
       $('button').click(function(){
@@ -195,16 +216,25 @@
           //   result = result + arrayCats[i].id
           // }
 
+          // go through each select element (represented by 's')
           $pullDowns.each(function(i, s){
             var pullVal = Number($(s).val())
 
             console.log("You picked", pullVal);
-            console.log("Id of this image is:", arrayCats[pullVal - 1].id)
+            console.log("Id of this image is:", arrayCopy[i].id)
 
-            if(arrayCats[pullVal - 1].id != pullVal) {
+            if(arrayCopy[i].id != arrayCats[pullVal].id) {
               console.log('FAIL!!!');
+              currentPlayer.lives --
               return false
+              //console.log('PASS!!')
             }
+
+            // if currentPlayer.lives == 0 {
+             //alert: game over
+          // }
+
+            // switch turns || announce winner here
           })
 
 
