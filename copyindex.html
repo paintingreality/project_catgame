@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Project 1</title>
+  </head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" charset="utf-8"></script>
+
+  <style>
+/* body has the paper.jpg christmas wallpaper set to cover*/
+      body{
+        background: url(paper.jpg);
+        background-size: cover;
+      }
+/* the container class includes the h1, exampleSquares, playerSquares and pulldowns*/
+      .instructions {
+        z-index: 1000;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, .7);
+        border: 3px solid black;
+        display: block;
+        margin: auto;
+        color: white;
+        font-size: 18px;
+      }
+      .startButton {
+        margin-left: 650px;
+        width: 50px;
+        height: 50px
+
+      }
+      h2{
+        text-align: center;
+        font-size: 80px;
+      }
+      .container {
+        width: 900px;
+        height: 780px;
+        background: darkblue;
+        border: 3px solid lime;
+        display: block;
+        margin: auto;
+      }
+/*this h1 is for the Creepy Cat people christmas card game */
+      .h1 {
+        color: white;
+        text-align: center;
+        border: 4px solid red;
+        background: blue;
+      }
+/* exampleSquares properties*/
+      .exampleSquares{
+        width: 200px;
+        height: 300px;
+        border: 4px solid red;
+        display: inline-block;
+        margin: 2px;
+        padding: 4px;
+      }
+/*playerSquares properties*/
+      .playerSquares{
+        width: 200px;
+        height: 300px;
+        border: 4px solid red;
+        display: inline-block;
+        margin: 2px;
+        margin-top: 5px;
+        padding: 4px;
+      }
+/*pulldowns properties*/
+      .pullone{
+        margin-left: 150px;
+      }
+      .pulltwo{
+        margin-left: 150px;
+      }
+      .pullthree{
+        margin-left: 150px;
+      }
+      .pullfour{
+        margin-left: 150px;
+      }
+
+/*all images have this size ratio*/
+      img {
+        width: 200px;
+        height: 300px;
+      }
+      </style>
+
+<body>
+ <div class="instructions">
+   <h2>INSTRUCTIONS</h2>
+   <ul>
+    <li>There are four squares (left to right 1,2,3,4) with four pictures of cats with their creepy owners.</li>
+
+    <li>Memorize what pictures show up in the four squares as they will fade away!!</li>
+
+    <li>Once the squares have faded away another 4 squares with the same 4 pictures will be generated in a random order. These pictures will fade away completely after 20 seconds.</li>
+
+    <li>There are four pulldown boxes with numbers 1 - 4 directly under the squares. There is also a Submit button to the right of the last box.</li>
+
+    <li>Your will need to recall from memory the original 4 pictures with the square locations they appeared in (1,2,3,4).</li>
+
+    <li>You will need to select the pulldown boxes under the pictures in the squares to match the original square locations (1 - 4) of the pictures when they where originally displayed.
+
+    <li>Once you have selected the pulldown boxes, click the Submit button. (note: the boxes are left to right 1, 2, 3, 4.).</li>
+
+    <li>Once the Submit button has been clicked Player Two will have to do the same task.</li>
+
+    <li>Once Player Two has completed the turn the scores will be tallied and it will be Player One's turn.</li>
+
+    <li>You will either pass or fail the level, first Player to fail 3 times loses.</li>
+
+    <li>Winner will win a year supply of cat food!! (Joking, just making sure you are paying attention!) Good luck!!</li>
+   </ul>
+   <button type="input" class="startButton">Start</button>
+
+ </div>
+    <div class="container"> <!--container start -->
+      <h1 class="h1">The Creepy Cat People Christmas Card Game</h1>
+      <div id="es0" class="exampleSquares"></div> <!--top squares -->
+      <div id="es1" class="exampleSquares"></div>
+      <div id="es2" class="exampleSquares"></div>
+      <div id="es3" class="exampleSquares"></div>
+
+      <div id="ps0" class="playerSquares"></div> <!--bottom squares -->
+      <div id="ps1" class="playerSquares"></div>
+      <div id="ps2" class="playerSquares"></div>
+      <div id="ps3" class="playerSquares"></div>
+
+    <div class="pulldowns">
+      <select id="0" class="pullone"> <!--first pulldown far left -->
+        <option value="0">1</option>
+        <option value="1">2</option>
+        <option value="2">3</option>
+        <option value="3">4</option>
+      </select>
+
+      <select id="1" class="pulltwo"> <!--second pulldown mid left -->
+        <option value="0">1</option>
+        <option value="1">2</option>
+        <option value="2">3</option>
+        <option value="3">4</option>
+      </select>
+      <select id="2" class="pullthree"> <!--third pulldown mid right -->
+        <option value="0">1</option>
+        <option value="1">2</option>
+        <option value="2">3</option>
+        <option value="3">4</option>
+      </select>
+      <select id="3" class="pullfour"> <!--last pulldown far right -->
+        <option value="0">1</option>
+        <option value="1">2</option>
+        <option value="2">3</option>
+        <option value="3">4</option>
+      </select>
+      <button class="submit">Submit</button> <!--button to submit pulldowns-->
+
+    </div>
+
+  </div> <!-- container ends -->
+
+    <script type="text/javascript">
+//variables for exampleSquares,playerSquares, arrayCats //
+      var $startButton = $('.startButton')
+      var $instructions = $('.instructions')
+      var $examSquares = $('.exampleSquares')
+      var $playSquares = $('.playerSquares')
+//cats have and id added before they end up in array copy
+      var arrayCats = [
+        {pic:'<img src="cheesycat.jpg" alt="cheesycat">'},
+        {pic:'<img src="cat.jpg" alt="cat">'},
+        {pic: '<img src="uglysweatercat.jpg" alt="uglysweatercat">'},
+        {pic:'<img src="couplescat.jpg" alt="couplescat">'}
+      ]
+
+//var for arrayCopy
+      var arrayCopy = null;
+//var for pulldowns
+      var $pullone = $('.pullone')
+      var $pulltwo = $('.pulltwo')
+      var $pullthree = $('.pullthree')
+      var $pullfour = $('.pullfour')
+      var $pullDowns = $('select')
+
+      // .concat(arrayCats)
+      var game = {
+        player1: {lives: 3},
+        player2: {lives: 3}
+      }
+      var currentPlayer = game.player1
+      //var SwitchTurns = currentPlayer
+
+
+// var currentFade = $(examSquares).fadeOut()
+
+//_______shuffle function to shuffle at random___________________________
+      function shuffle(arrayCats) {
+        var currentIndex = arrayCats.length, tempCatsVal, randomCatsIndex;
+        while (currentIndex) {
+
+          randomCatsIndex = Math.floor(Math.random() * currentIndex--);
+
+
+          tempCatsVal = arrayCats[currentIndex];
+          arrayCats[currentIndex] = arrayCats[randomCatsIndex];
+          arrayCats[randomCatsIndex] = tempCatsVal;
+        }
+          return arrayCats;
+
+      }
+
+//_____________________________________________________________________________
+
+      $startButton.on('click', function() {
+        console.log('clicked');
+        $instructions.fadeOut(1000)
+        startRound()
+        console.log(currentPlayer);
+      })
+
+
+//________________startsRound__________________________________________________
+      function startRound(){
+        shuffle(arrayCats)
+        console.log(arrayCats)
+
+// for loop to generate pictures in examSquares and make them fadeOut after 5 seconds. //
+
+      for (var i = 0; i < arrayCats.length; i++) {
+        arrayCats[i].id = i
+        $examSquares[i].innerHTML = arrayCats[i].pic
+      }
+
+// make sure examples are faded in...on startRound for next player turn
+      $examSquares.show()
+      arrayCopy = [].concat(arrayCats)
+
+//this starts the fadeOut of the examSquares, then once done shuffles and generate the arrayCopy
+      $examSquares.fadeOut(5000).promise().then(function() {
+        console.log("fadeOut animation done")
+
+        shuffle(arrayCopy)
+        console.log(arrayCopy)
+//for loop to generate pictures in $playSquares and make them fadeOut after 20 seconds.
+        for (var i = 0; i < 4; i++) {
+          $playSquares[i].innerHTML = arrayCopy[i].pic
+        }
+        console.log("array copy, shuffled:", arrayCopy)
+      })
+
+//this starts the fadeOut of 20 seconds for the playerSquares
+      $playSquares.show()
+      $playSquares.fadeOut(30000).promise().then(function() {
+      // $playSquares.promise().then(function() {
+        console.log('fadeOut two done')
+      })
+
+  }
+
+// _________________________________________________________________________//
+//this listens for button to be clicked and gets the values for pulldowns.
+      $('.submit').click(function(){
+        console.log('youclickedthebutton')
+//make myGuess be a string of the values of the pulldown menus
+        $p1Guess = $pullone.val() + $pulltwo.val() + $pullthree.val() + $pullfour.val()
+
+// go through each select element (represented by 's')
+          $pullDowns.each(function(i, s){
+            var pullVal = Number($(s).val())
+
+            console.log("You picked", pullVal);
+            console.log("Id of this image is:", arrayCopy[i].id)
+
+            if(arrayCopy[i].id != arrayCats[pullVal].id) {
+              console.log('FAIL!!!');
+               currentPlayer.lives --
+               //currentPlayer.lives = currentPlayer.lives - 1;
+              //console.log("1 Game Player 2 Lives: " + game.player2.lives);
+
+            } else if(arrayCopy[i].id == arrayCats[pullVal].id) {
+              console.log('Pass!!!')
+              currentPlayer.lives ++
+              console.log("2 Game Player 2 Lives: " + game.player2.lives + game.player1.lives);
+
+              //currentPlayer.lives = currentPlayer.lives - 1;
+              // return true
+              //console.log(currentPlayer.lives)
+
+            }
+
+
+              switchTurns()
+                console.log(currentPlayer);
+
+
+              // checkMatch()
+            })
+
+
+            // switch turns || announce winner here
+         })
+//________________function switchTurns___________________________
+         function switchTurns() {
+           console.log('switching turns')
+           if (currentPlayer == game.player1){
+            currentPlayer = game.player2
+            startRound()
+          } else {(currentPlayer == game.player2)
+            currentPlayer = game.player1
+            console.log(game.player1.lives)
+            console.log(game.player2.lives)
+            startRound()
+
+            checkMatch()
+           }
+         }
+
+
+//________________function checkMatch_____________________________
+        function checkMatch() {
+          if (currentPlayer.lives == 0) {
+            alert((currentPlayer) + 'loses')
+          }
+          // else (currentPlayer.player2.lives == 0)
+          //  alert('player2 loses')
+        // }
+      };
+
+//________________function confirmIt______________________________
+        //  function confirmIt() {
+        //     confirm("Are you sure?", function(result) {
+        //         if (result = true)
+        //     {
+        //           switchTurns()  // do something
+        //     }
+        //
+        //   });
+        // })
+
+    </script>
+  </body>
+</html>
