@@ -47,11 +47,34 @@
       return arrayCats;
 
   }
+//_____________________ new shuffle function ______________
+      // function swap(arrayCats, firstindex, secondIndex) {
+      //   var temp = arrayCats[firstindex]
+      //   arrayCats[firstindex] = arrayCats[secondIndex]
+      //   arrayCats[secondIndex] = temp
+      //   return arrayCats
+      // }
+      //
+      // function shuffle(arrayCats){
+      //   var currentIndex = arrayCats.length
+      //   var randomIndex
+      //   var tempElement
+      //
+      //   while(currentIndex){
+      //     console.log(currentIndex)
+      //     randomIndex = (Math.floor(Math.random()*currentIndex))
+      //     swap(arrayCats, currentIndex -1, randomIndex)
+      //   }
+      //   return arrayCats
+      // }
+      //
+      //   result = ''
+
 
 //_____________________________________________________________________________
 
   $startButton.on('click', function() {
-    console.log('clicked');
+    //console.log('clicked');
     $instructions.fadeOut(1000)
     startRound()
     console.log(currentPlayer);
@@ -61,11 +84,12 @@
 //________________startsRound__________________________________________________
   function startRound(){
     shuffle(arrayCats)
-    console.log(arrayCats)
+    //console.log(arrayCats)
 
 // for loop to generate pictures in examSquares and make them fadeOut after 5 seconds. //
 
   for (var i = 0; i < arrayCats.length; i++) {
+    //result = result + arrayCats[i].id
     arrayCats[i].id = i
     $examSquares[i].innerHTML = arrayCats[i].pic
   }
@@ -76,67 +100,76 @@
 
 //this starts the fadeOut of the examSquares, then once done shuffles and generate the arrayCopy
   $examSquares.fadeOut(5000).promise().then(function() {
-    console.log("fadeOut animation done")
+    //console.log("fadeOut animation done")
 
     shuffle(arrayCopy)
-    console.log(arrayCopy)
+    //console.log(arrayCopy)
 //for loop to generate pictures in $playSquares and make them fadeOut after 20 seconds.
     for (var i = 0; i < 4; i++) {
       $playSquares[i].innerHTML = arrayCopy[i].pic
     }
-    console.log("array copy, shuffled:", arrayCopy)
+    //console.log("array copy, shuffled:", arrayCopy)
+    $playSquares.show()
+    $playSquares.fadeOut(5000).promise().then(function() {
+    // $playSquares.promise().then(function() {
+      //console.log('fadeOut two done')
+    })
   })
 
 //this starts the fadeOut of 20 seconds for the playerSquares
-  $playSquares.show()
-  $playSquares.fadeOut(30000).promise().then(function() {
-  // $playSquares.promise().then(function() {
-    console.log('fadeOut two done')
-  })
+
 
 }
 
 // _________________________________________________________________________//
 //this listens for button to be clicked and gets the values for pulldowns.
   $('.submit').click(function(){
-    console.log('youclickedthebutton')
+    //console.log('youclickedthebutton')
 //make myGuess be a string of the values of the pulldown menus
-    $p1Guess = $pullone.val() + $pulltwo.val() + $pullthree.val() + $pullfour.val()
-
+    playerGuess = $pullone.val() + $pulltwo.val() + $pullthree.val() + $pullfour.val()
+    var numberOfFailures = 0
 // go through each select element (represented by 's')
       $pullDowns.each(function(i, s){
         var pullVal = Number($(s).val())
+        //console.log(pullVal)
 
         console.log("You picked", pullVal);
         console.log("Id of this image is:", arrayCopy[i].id)
 
         if(arrayCopy[i].id != arrayCats[pullVal].id) {
           console.log('FAIL!!!');
-           currentPlayer.lives --
+          numberOfFailures ++
+           console.log(currentPlayer.lives)
            //currentPlayer.lives = currentPlayer.lives - 1;
           //console.log("1 Game Player 2 Lives: " + game.player2.lives);
 
-        } else if(arrayCopy[i].id == arrayCats[pullVal].id) {
-          console.log('Pass!!!')
-          currentPlayer.lives ++
-          console.log("2 Game Player 2 Lives: " + game.player2.lives + game.player1.lives);
-
-          //currentPlayer.lives = currentPlayer.lives - 1;
-          // return true
-          //console.log(currentPlayer.lives)
-
         }
+        // else if(arrayCopy[i].id == arrayCats[pullVal].id) {
+        //   console.log('Pass!!!')
+        //   currentPlayer.lives ++
+        //   console.log(currentPlayer.lives);
+        //   checkMatch()
+        //   switchTurns()
+        //   //currentPlayer.lives = currentPlayer.lives - 1;
+        //   // return true
+        //   //console.log(currentPlayer.lives)
+        //
+        // }
 
 
-          switchTurns()
+          //switchTurns()
           console.log(currentPlayer);
 
+          //checkMatch()
 
-          // checkMatch()
         })
-
-
         // switch turns || announce winner here
+        if (numberOfFailures > 0){
+          currentPlayer.lives --
+        }
+          checkMatch()
+          switchTurns()
+
      })
 //________________function switchTurns___________________________
      function switchTurns() {
@@ -146,11 +179,11 @@
         startRound()
       } else {(currentPlayer == game.player2)
         currentPlayer = game.player1
-        console.log(game.player1.lives)
-        console.log(game.player2.lives)
+        //console.log(game.player1.lives)
+        //console.log(game.player2.lives)
         startRound()
 
-        checkMatch()
+        // checkMatch()
        }
      }
 
