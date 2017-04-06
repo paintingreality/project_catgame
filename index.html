@@ -13,6 +13,28 @@
         background-size: cover;
       }
 /* the container class includes the h1, exampleSquares, playerSquares and pulldowns*/
+      .instructions {
+        z-index: 1000;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, .7);
+        border: 3px solid black;
+        display: block;
+        margin: auto;
+        color: white;
+        font-size: 18px;
+      }
+      .startButton {
+        margin-left: 650px;
+        width: 50px;
+        height: 50px
+
+      }
+      h2{
+        text-align: center;
+        font-size: 80px;
+      }
       .container {
         width: 900px;
         height: 780px;
@@ -68,7 +90,35 @@
       }
       </style>
 
-  <body>
+<body>
+ <div class="instructions">
+   <h2>INSTRUCTIONS</h2>
+   <ul>
+    <li>There are four squares (left to right 1,2,3,4) with four pictures of cats with their creepy owners.</li>
+
+    <li>Memorize what pictures show up in the four squares as they will fade away!!</li>
+
+    <li>Once the squares have faded away another 4 squares with the same 4 pictures will be generated in a random order. These pictures will fade away completely after 20 seconds.</li>
+
+    <li>There are four pulldown boxes with numbers 1 - 4 directly under the squares. There is also a Submit button to the right of the last box.</li>
+
+    <li>Your will need to recall from memory the original 4 pictures with the square locations they appeared in (1,2,3,4).</li>
+
+    <li>You will need to select the pulldown boxes under the pictures in the squares to match the original square locations (1 - 4) of the pictures when they where originally displayed.
+
+    <li>Once you have selected the pulldown boxes, click the Submit button. (note: the boxes are left to right 1, 2, 3, 4.).</li>
+
+    <li>Once the Submit button has been clicked Player Two will have to do the same task.</li>
+
+    <li>Once Player Two has completed the turn the scores will be tallied and it will be Player One's turn.</li>
+
+    <li>You will either pass or fail the level, first Player to fail 3 times loses.</li>
+
+    <li>Winner will win a year supply of cat food!! (Joking, just making sure you are paying attention!) Good luck!!</li>
+   </ul>
+   <button type="input" class="startButton">Start</button>
+
+ </div>
     <div class="container"> <!--container start -->
       <h1 class="h1">The Creepy Cat People Christmas Card Game</h1>
       <div id="es0" class="exampleSquares"></div> <!--top squares -->
@@ -107,13 +157,16 @@
         <option value="2">3</option>
         <option value="3">4</option>
       </select>
-      <button type="button">Submit</button> <!--button to submit pulldowns-->
+      <button class="submit">Submit</button> <!--button to submit pulldowns-->
+
     </div>
 
   </div> <!-- container ends -->
 
     <script type="text/javascript">
 //variables for exampleSquares,playerSquares, arrayCats //
+      var $startButton = $('.startButton')
+      var $instructions = $('.instructions')
       var $examSquares = $('.exampleSquares')
       var $playSquares = $('.playerSquares')
       //cats have and id#
@@ -128,6 +181,7 @@
         {pic:'<img src="couplescat.jpg" alt="couplescat">'}
       ]
 
+//var for arrayCopy
       var arrayCopy = null;
 //var for pulldowns
       var $pullone = $('.pullone')
@@ -135,7 +189,6 @@
       var $pullthree = $('.pullthree')
       var $pullfour = $('.pullfour')
       var $pullDowns = $('select')
-//var for arrayCopy
 
       // .concat(arrayCats)
       var game = {
@@ -143,11 +196,14 @@
         player2: {lives: 3}
       }
       var currentPlayer = game.player1
+      //var SwitchTurns = currentPlayer
 
 
 // var currentFade = $(examSquares).fadeOut()
 
-// shuffle function to shuffle at random //
+//shuffle function to shuffle at random //
+
+
       function shuffle(arrayCats) {
         var currentIndex = arrayCats.length, tempCatsVal, randomCatsIndex;
         while (currentIndex) {
@@ -162,11 +218,26 @@
           return arrayCats;
 
       }
+
 //create function for new round from shuffle to end playSquares fade out.
+//_____________________________________________________________________________
+
+      // $startButton.click($instructions.fadeOut(5000))
+        // $instructions.fadeOut(1000)
+
+      $startButton.on('click', function() {
+        console.log('clicked');
+        $instructions.fadeOut(1000)
+        startRound()
+
+      })
+
+
+
       function startRound(){
         shuffle(arrayCats)
         console.log(arrayCats)
-//__________________________________________________________________________
+
 // for loop to generate pictures in examSquares and make them fadeOut after 5 seconds. //
 
       for (var i = 0; i < arrayCats.length; i++) {
@@ -174,26 +245,21 @@
         $examSquares[i].innerHTML = arrayCats[i].pic
       }
 
-      // make sure examples are faded in...
+// make sure examples are faded in...on startRound for next player turn
       $examSquares.show()
       arrayCopy = [].concat(arrayCats)
 
 //this starts the fadeOut of the examSquares, then once done shuffles and generate the arrayCopy
       $examSquares.fadeOut(5000).promise().then(function() {
-      //$examSquares.promise().then(function() {
         console.log("fadeOut animation done")
 
         shuffle(arrayCopy)
         console.log(arrayCopy)
+//for loop to generate pictures in $playSquares and make them fadeOut after 20 seconds.
         for (var i = 0; i < 4; i++) {
           $playSquares[i].innerHTML = arrayCopy[i].pic
-
-
         }
         console.log("array copy, shuffled:", arrayCopy)
-
-//for loop to generate pictures in $playSquares and make them fadeOut after 20 seconds.
-
       })
 
 //this starts the fadeOut of 20 seconds for the playerSquares
@@ -202,19 +268,19 @@
       // $playSquares.promise().then(function() {
         console.log('fadeOut two done')
       })
-    }
+
+  }
+
 // _________________________________________________________________________//
 //this listens for button to be clicked and gets the values for pulldowns.
-      $('button').click(function(){
+      $('.submit').click(function(){
         console.log('youclickedthebutton')
         //make myGuess be a string of the values of the pulldown menus
         $p1Guess = $pullone.val() + $pulltwo.val() + $pullthree.val() + $pullfour.val()
 
 
-          var result = ""
-          // for (var i = 0; i < arrayCats.length; i++){
-          //   result = result + arrayCats[i].id
-          // }
+          // var result = ""
+
 
           // go through each select element (represented by 's')
           $pullDowns.each(function(i, s){
@@ -226,18 +292,56 @@
             if(arrayCopy[i].id != arrayCats[pullVal].id) {
               console.log('FAIL!!!');
               currentPlayer.lives --
-              return false
-              //console.log('PASS!!')
+
+            } else if(arrayCopy[i].id == arrayCats[pullVal].id) {
+              console.log('Pass!!!')
+              currentPlayer.lives ++
+              // return true
+              console.log(currentPlayer.lives)
+
             }
 
-            // if currentPlayer.lives == 0 {
-             //alert: game over
-          // }
+
+              switchTurns()
+              // checkMatch()
+            })
+
 
             // switch turns || announce winner here
-          })
+         })
+
+         function switchTurns() {
+           console.log('switching turns')
+           if (currentPlayer == game.player1){
+             currentPlayer = game.player2
+             startRound()
+           } else {(currentPlayer == game.player2)
+             currentPlayer = game.player1
+             checkMatch()
+             startRound()
+           }
+        }
+
+        function checkMatch() {
+          if (game.player1.lives == 0) {
+            alert('player1 loses')
+          } else {(game.player2.lives == 0)
+          alert('player2 loses')
+        }
+        }
 
 
+
+
+         function confirmIt() {
+            confirm("Are you sure?", function(result) {
+                if (result = true)
+            {
+                  switchTurns()  // do something
+            }
+
+          });
+        }
           // console.log($p1Guess)
           // console.log("this is p1guess")
           // console.log(result)
@@ -249,7 +353,7 @@
         // } else {
         //   console.log('false')
         // }
-      })
+      //})
 
 
 
