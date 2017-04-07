@@ -28,7 +28,7 @@
   }
   var currentPlayer = game.player1
   //var SwitchTurns = currentPlayer
-
+  var $nextPlayer = $('.next').hide()
 
 // var currentFade = $(examSquares).fadeOut()
 
@@ -71,22 +71,21 @@
       //   result = ''
 
 
-//_____________________________________________________________________________
+//_________this will start game and fadeOut instructions _____________________
 
   $startButton.on('click', function() {
-    //console.log('clicked');
     $instructions.fadeOut(1000)
     startRound()
     console.log(currentPlayer);
   })
 
 
-//________________startsRound__________________________________________________
+//________this is the function for startRound________________________________
   function startRound(){
     shuffle(arrayCats)
     //console.log(arrayCats)
 
-// for loop to generate pictures in examSquares and make them fadeOut after 5 seconds. //
+//for loop will generate pictures in examSquares and make them fadeOut after 5 seconds. //
 
   for (var i = 0; i < arrayCats.length; i++) {
     //result = result + arrayCats[i].id
@@ -94,119 +93,92 @@
     $examSquares[i].innerHTML = arrayCats[i].pic
   }
 
-// make sure examples are faded in...on startRound for next player turn
+//this makes sure exampleSquares are shown...on startRound for next player turn.
   $examSquares.show()
   arrayCopy = [].concat(arrayCats)
 
-//this starts the fadeOut of the examSquares, then once done shuffles and generate the arrayCopy
+//this starts the fadeOut of the $examSquares, then once done shuffles and generate the arrayCopy.
   $examSquares.fadeOut(5000).promise().then(function() {
-    //console.log("fadeOut animation done")
 
     shuffle(arrayCopy)
-    //console.log(arrayCopy)
-//for loop to generate pictures in $playSquares and make them fadeOut after 20 seconds.
+
+//for loop will generate pictures in $playSquares and make them fadeOut after 20 seconds.
     for (var i = 0; i < 4; i++) {
       $playSquares[i].innerHTML = arrayCopy[i].pic
     }
-    //console.log("array copy, shuffled:", arrayCopy)
+//this makes sure $playSquares are shown...on startRound for next player turn.
+//$playSquares will fadeOut after 20 seconds.
     $playSquares.show()
-    $playSquares.fadeOut(5000).promise().then(function() {
-    // $playSquares.promise().then(function() {
-      //console.log('fadeOut two done')
+    $playSquares.fadeOut(15000).promise().then(function() {
+
     })
   })
 
-//this starts the fadeOut of 20 seconds for the playerSquares
-
-
 }
 
-// _________________________________________________________________________//
+// __________this is the function for clicking submit button.__________________
 //this listens for button to be clicked and gets the values for pulldowns.
   $('.submit').click(function(){
-    //console.log('youclickedthebutton')
+
 //make myGuess be a string of the values of the pulldown menus
     playerGuess = $pullone.val() + $pulltwo.val() + $pullthree.val() + $pullfour.val()
     var numberOfFailures = 0
-// go through each select element (represented by 's')
+// goes through each select element (represented by 's')
       $pullDowns.each(function(i, s){
         var pullVal = Number($(s).val())
-        //console.log(pullVal)
 
+//this console logs the what player picked and also the pulldown values.
         console.log("You picked", pullVal);
+//this console logs the arrayCopy id of pictures.
         console.log("Id of this image is:", arrayCopy[i].id)
-
+//if the id of the arrayCopy index does not match the pullVal of arrayCats id it is a fail.
         if(arrayCopy[i].id != arrayCats[pullVal].id) {
           console.log('FAIL!!!');
-          numberOfFailures ++
+          numberOfFailures ++ //this adds to the number of failures
            console.log(currentPlayer.lives)
-           //currentPlayer.lives = currentPlayer.lives - 1;
-          //console.log("1 Game Player 2 Lives: " + game.player2.lives);
 
         }
-        // else if(arrayCopy[i].id == arrayCats[pullVal].id) {
-        //   console.log('Pass!!!')
-        //   currentPlayer.lives ++
-        //   console.log(currentPlayer.lives);
-        //   checkMatch()
-        //   switchTurns()
-        //   //currentPlayer.lives = currentPlayer.lives - 1;
-        //   // return true
-        //   //console.log(currentPlayer.lives)
-        //
-        // }
-
-
-          //switchTurns()
           console.log(currentPlayer);
-
-          //checkMatch()
-
         })
         // switch turns || announce winner here
         if (numberOfFailures > 0){
           currentPlayer.lives --
         }
-          checkMatch()
-          switchTurns()
-
+          checkMatch()   //checks match
+          switchTurns()  //switches turns
      })
-//________________function switchTurns___________________________
+//________________function for switchTurns___________________________
      function switchTurns() {
        console.log('switching turns')
        if (currentPlayer == game.player1){
         currentPlayer = game.player2
-        startRound()
+        console.log(currentPlayer.lives)
       } else {(currentPlayer == game.player2)
         currentPlayer = game.player1
-        //console.log(game.player1.lives)
-        //console.log(game.player2.lives)
-        startRound()
-
-        // checkMatch()
        }
      }
 
-
 //________________function checkMatch_____________________________
-    function checkMatch() {
-      if (currentPlayer.lives == 0) {
-        alert(currentPlayer.name + 'loses')
-      }
-      // else (currentPlayer.player2.lives == 0)
-      //  alert('player2 loses')
-    // }
+  function checkMatch() {
+    if (currentPlayer.lives == 0) {
+      alert(currentPlayer.name + 'loses')
+    } else {
+      $examSquares.stop()
+      $examSquares.fadeOut()
+
+      $playSquares.stop()
+      $playSquares.fadeOut()
+
+      // fade popup in...
+      $nextPlayer.fadeIn(1000, function() {
+        /// wait 2 seconds
+        setTimeout(function(){
+          // fade out popup
+          $nextPlayer.fadeOut(1000, function(){
+            //start round
+            startRound()
+          })
+        }, 2000)
+      })
+    }
   };
-
-//________________function confirmIt______________________________
-    //  function confirmIt() {
-    //     confirm("Are you sure?", function(result) {
-    //         if (result = true)
-    //     {
-    //           switchTurns()  // do something
-    //     }
-    //
-    //   });
-    // })
-
-// </script>
